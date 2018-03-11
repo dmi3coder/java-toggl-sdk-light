@@ -9,6 +9,8 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.NotNull;
 import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.Base64;
 
 public class TogglApiBuilder {
     private TogglApiBuilder self;
@@ -28,9 +30,11 @@ public class TogglApiBuilder {
 
     public TogglApi build() {
         WebClient client = WebClient.create("https://www.toggl.com/api/v8");
+        String headerTokenValue = token + ":api_token";
+        String encodedHeaderTokenValue = new String(Base64.getEncoder().encode(headerTokenValue.getBytes()));
         Mono<UserContext> context = client.get()
                 .uri("/me").accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Basic YWY4OTk3N2NkNTc0ZjJkMmE3N2IyMjVjZDQ0MjZlZDc6YXBpX3Rva2Vu")
+                .header("Authorization", "Basic "+encodedHeaderTokenValue)
                 .retrieve()
                 .bodyToMono(ResponseWrapper.class).map(ResponseWrapper::getData);
         return new TogglApi(context);
