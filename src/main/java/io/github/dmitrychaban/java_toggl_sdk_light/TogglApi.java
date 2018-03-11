@@ -1,21 +1,15 @@
 package io.github.dmitrychaban.java_toggl_sdk_light;
 
-
 import io.github.dmitrychaban.java_toggl_sdk_light.model.UserContext;
+import io.github.dmitrychaban.java_toggl_sdk_light.model.Workspace;
 import reactor.core.publisher.Mono;
 
-public class TogglApi {
-    private Mono<UserContext> context;
+public interface TogglApi {
+    Mono<UserContext> getContext();
 
-    public TogglApi(Mono<UserContext> context) {
-        this.context = context;
-    }
+    void setContext(Mono<UserContext> context);
 
-    public Mono<UserContext> getContext() {
-        return context;
-    }
+    Workspace getCurrentWorkspace();
 
-    public void setContext(Mono<UserContext> context) {
-        this.context = context;
-    }
+    void setCurrentWorkspace(Workspace currentWorkspace);
 }

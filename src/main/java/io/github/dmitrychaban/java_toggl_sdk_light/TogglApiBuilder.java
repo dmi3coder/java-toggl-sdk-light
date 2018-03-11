@@ -8,8 +8,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.NotNull;
-import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.Base64;
 
 public class TogglApiBuilder {
@@ -37,7 +35,7 @@ public class TogglApiBuilder {
                 .header("Authorization", "Basic "+encodedHeaderTokenValue)
                 .retrieve()
                 .bodyToMono(ResponseWrapper.class).map(ResponseWrapper::getData);
-        return new TogglApi(context);
+        return new DefaultTogglApi(context);
     }
 
 }
